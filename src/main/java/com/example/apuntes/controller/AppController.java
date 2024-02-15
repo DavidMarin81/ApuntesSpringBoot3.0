@@ -1,4 +1,5 @@
 package com.example.apuntes.controller;
+import com.example.apuntes.model.Persona;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,17 +7,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /*
- Pasando parámetros entre paginas
-    1.- Se crea un metodo y se anota con @PostMapping("/fin_formulario.html")
-    2.- El metodo lleva los parametros anotados con @RequestParam
-    2.1.- El nombre del parametro del @RequestParam coincide con el "name="nombre" del <input>
-    2.2.- El primer parametro del model.addAttribute coincide con el ${nombre} en confirmacion.html
-    3.- En los parametros se le pasa un objeto de tipo Model
-    4.- En confirmacion.html se añade este espacio de nombre:
-        <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    5.- Con el th del espacio de nombre, se recogen los parametros pasados en el post
-    6.- El formulario lleva el metodo post
-        <form action="/confirmacion.html" method="post">
+ Pasando un objeto de tipo "Persona" entre paginas
+    1.- Se crea una clase "Persona"
+    2.- Se pasa por parametro un objeto de tipo "Persona"
+    3.- Se recoge el parametro en el html
+            <p>Nombre: <span th:text="${persona.nombre}"></span></p>
 
  */
 
@@ -24,13 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AppController {
 
     @PostMapping("/confirmacion.html")
-    public String mostrarConfirmacion(@RequestParam String nombre,
-                                      @RequestParam String apellidos,
-                                      @RequestParam int edad,
+    public String mostrarConfirmacion(Persona persona,
                                       Model model){
-        model.addAttribute("nombre", nombre);
-        model.addAttribute("apellidos", apellidos);
-        model.addAttribute("edad", edad);
+        model.addAttribute("persona", persona);
 
         return "confirmacion";
     }
